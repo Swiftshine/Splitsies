@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
 
     cmd("-extension") >> extension;
 
-    if (extension.empty()) { extension = ".bin"; }
+    if (extension.empty() && cmd["extension"]) { extension = ".bin"; }
 
     if (size_signed < 1) {
         printf("Size cannot be less than 1 byte. Given size was %d byte(s).\n\n", size_signed);
@@ -199,8 +199,7 @@ int split_file(std::string_view filename, unsigned int byte_limit, std::string_v
     while (remaining > 0) {
         unsigned int chunk_size = std::min(byte_limit, remaining);
         std::string output_filename = (use_output_folder ? folder_name + "/" : "") +
-                                      base_name + std::string(suffix) + std::to_string(part) + std::string(extension);
-
+                                      base_name + std::string(suffix) + std::to_string(part) + ((extension.find(".") != std::string::npos) ? std::string(extension) : std::string(".") + std::string(extension));
         std::fstream output_file(output_filename, std::ios::out | std::ios::binary);
         if (!output_file.is_open()) {
             printf("Failed to create file %s.\n", output_filename.c_str());
