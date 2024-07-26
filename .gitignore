@@ -1,0 +1,8 @@
+build/
+output/
+*.zip
+*.bin
+*.sh
+include/argh.h
+.DS_STORE
+.vscode/
